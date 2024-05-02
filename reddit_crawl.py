@@ -1,9 +1,12 @@
+# REMINDER: Reddit search engine should:
+#               * Show relevant reddit posts given a search query (give weights to upvotes, titles, tags, etc)
+#               * Have the ability to search by user name, or on "trending", "new", etc
+
 import praw
 import json
 import config
 
-print(config.username)
-
+# Initial login - references config, which contains an individual reddit login and the reddit dev app info, like the client id and secret
 reddit = praw.Reddit(
     username = config.username,
     password = config.password,
@@ -12,12 +15,62 @@ reddit = praw.Reddit(
     user_agent = "CS172 Project Phase One"
 )
 
-top = reddit.subreddit("csMajors").top(limit=500)
-for post in top:
-    print(post.selftext)
-    print(post.title)
-    print(post.id)
-    print(post.score)
-    print(post.url)
-    print(post.permalink)
+# Open the file
+outputFile = open("output.json", "w")
 
+# FOR TESTING PURPOSES - NOT SURE IF WE SHOULD HAVE THIS IN FINAL IMPLEMENTATION
+# Clears the file
+outputFile.write("")
+
+# Correctly formats the JSON file with brackets
+outputFile.write("[\n")
+
+# As of now, we search through one subreddit.
+# We can provide a list of subreddit names and loop through the array to grab like 500 posts from each subreddit.
+# We can scale as we go.
+top = list(reddit.subreddit("csMajors").top(limit=2))
+for i, post in enumerate(top):
+    # Retrieval of basic post information
+    selftext = post.selftext
+    authorname = post.author.name if post.author else 'deleted-user'
+    title = post.title
+    postID = post.id
+    score = post.score
+    imgurl = post.url
+    permalink = post.permalink
+
+    # Grabs five comments and their data
+    comments_data = []
+    for comment in post.comments[:5]:
+        comment_author = comment.author.name if comment.author else 'deleted-user'
+        comment_body = comment.body
+
+        comment_data = {
+            "author": comment_author,
+            "body": comment_body
+        }
+
+        comments_data.append(comment_data)
+    
+    post_to_json = {
+        "author": authorname,
+        "title": title,
+        "selftext": selftext,
+        "post ID": postID,
+        "score": score,
+        "permalink": permalink,
+        "image url": imgurl,
+        "comments": comments_data
+    }
+
+    json.dump(post_to_json, outputFile, indent=6)
+    
+    # Add comma unless it's the last entry
+    if i < len(top) - 1:
+        outputFile.write(',\n')
+    
+    outputFile.write('\n')
+
+outputFile.write("]")
+
+outputFile.close()
