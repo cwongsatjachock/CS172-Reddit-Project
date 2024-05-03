@@ -25,15 +25,15 @@ for index, subreddit in enumerate(subreddits):
         try:
             top = list(reddit.subreddit(subreddit).top(limit=1000))
             new = list(reddit.subreddit(subreddit).new(limit=1000))
-            rising = list(reddit.subreddit(subreddit).rising(limit=1000))
             hot = list(reddit.subreddit(subreddit).hot(limit=1000))
             break  
         except prawcore.exceptions.TooManyRequests as e:
             time.sleep(retry_delay)
             retry_delay *= 2 
 
-    final = top + new + rising + hot
+    final = top + new + hot
     final = set(final)
+    wait = input("Press Enter to continue.")
     for i, post in enumerate(final):
         post.comments.replace_more(limit=0)
         comments_data = [
