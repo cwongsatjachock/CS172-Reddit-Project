@@ -10,7 +10,7 @@ reddit = praw.Reddit(
     user_agent="CS172 Project Phase One"
 )
 
-subreddits = ["Home", "AskReddit", "NoStupidQuestions", "BaldursGate3", "facepalm", "interestingasfuck", "Damnthatsinteresting", "LivestreamFail", "pics", "Palworld", "AmItheAsshole", "mildlyinfuriating", "Piracy", "PeterExplainsTheJoke", "funny", "AITAH", "movies", "Helldivers", "gaming", "worldnews", "leagueoflegends", "pcmasterrace", "Unexpected", "news", "politics", "wallstreetbets", "todayilearned", "nottheonion", "memes", "PublicFreakout", "Wellthatsucks", "explainlikeimfive", "OutOfTheLoop", "OnePiece", "BlackPeopleTwitter", "buildapc", "HonkaiStarRail", "SipsTea", "Minecraft", "mildlyinteresting", "nfl", "BeAmazed", "DIY", "nba", "MapPorn", "Steam", "Overwatch", "Genshin_Impact", "classicwow", "soccer", "Eldenring", "badroommates", "personalfinance", "antiwork", "anime", "wow", "DnD", "technology", "WhitePeopleTwitter", "EscapefromTarkov", "unpopularopinion", "popculturechat", "videos", "BestofRedditorUpdates", "youtube", "legaladvice", "ffxiv", "sysadmin", "MadeMeSmile", "CombatFootage", "relationship_advice", "discordapp", "pcgaming", "Games", "ChatGPT", "GlobalOffensive", "2007scape", "formula1", "CuratedTumblr", "Gamingcirclejerk", "TikTokCringe", "PiratedGames", "techsupport", "shitposting", "theydidthemath", "malelivingspace", "WTF", "cyberpunkgame", "OldSchoolCool", "coolguides", "AskMen", "dankmemes", "feedthebeast", "Warframe", "UkraineWarVideoReport", "SteamDeck", "college", "manga", "CrazyFuckingVideos", "rareinsults"]
+subreddits = ["Home", "AskReddit", "NoStupidQuestions", "facepalm", "interestingasfuck", "Damnthatsinteresting", "AmItheAsshole", "mildlyinfuriating", "Piracy", "AITAH", "gaming", "worldnews", "pcmasterrace", "Unexpected", "news", "politics", "wallstreetbets", "todayilearned", "nottheonion", "explainlikeimfive", "OutOfTheLoop", "buildapc", "Steam", "badroommates", "personalfinance", "antiwork", "anime", "manga", "DnD", "technology", "unpopularopinion", "youtube", "legaladvice", "sysadmin", "relationship_advice", "discordapp", "pcgaming", "Games", "ChatGPT", "2007scape", "PiratedGames", "techsupport", "shitposting", "theydidthemath","cyberpunkgame", "OldSchoolCool", "coolguides", "AskMen", "SteamDeck", "college", "rareinsults", "science", "relationship"]
 
 outputFile = open("output.json", "w")
 
@@ -33,7 +33,6 @@ for index, subreddit in enumerate(subreddits):
             }
             for comment in post.comments[:100]
         ]
-        print(post)
         post_to_json = {
             "subreddit": subreddit,
             "author": post.author.name if post.author else 'deleted-user',
