@@ -28,7 +28,7 @@ outputFile.write("[\n")
 # Provide a list of subreddits to iterate through and loop through each subreddit
 subreddits = ["AskReddit", "worldnews", "todayilearned", "news", "science"]
 for subreddit_index, subreddit in enumerate(subreddits):
-    top = list(reddit.subreddit(subreddit).top(limit=500))
+    top = list(reddit.subreddit(subreddit).top(limit=1000))
     for i, post in enumerate(top):
         # Retrieval of basic post information
         selftext = post.selftext
@@ -41,7 +41,7 @@ for subreddit_index, subreddit in enumerate(subreddits):
 
         # Grabs five comments and their data
         comments_data = []
-        for comment in post.comments[:10]:
+        for comment in post.comments[:100]:
             comment_author = comment.author.name if comment.author else 'deleted-user'
             comment_body = comment.body
 
