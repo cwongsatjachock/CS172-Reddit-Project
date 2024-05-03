@@ -33,7 +33,6 @@ for index, subreddit in enumerate(subreddits):
 
     final = top + new + hot
     final = set(final)
-    wait = input("Press Enter to continue.")
     for i, post in enumerate(final):
         post.comments.replace_more(limit=0)
         comments_data = [
