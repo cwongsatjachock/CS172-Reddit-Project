@@ -18,7 +18,7 @@ outputFile = open("output.json", "w")
 
 outputFile.write("[\n")
 
-retry_delay = 60  # Initial delay is 60 seconds
+retry_delay = 90  
 
 for index, subreddit in enumerate(subreddits):
     for _ in range(5):  # Maximum of 5 attempts
@@ -29,18 +29,23 @@ for index, subreddit in enumerate(subreddits):
             break  
         except prawcore.exceptions.TooManyRequests as e:
             time.sleep(retry_delay)
-            retry_delay *= 2 
 
     final = top + new + hot
     final = set(final)
     for i, post in enumerate(final):
-        comments_data = [
-            {
-                "author": comment.author.name if comment.author else 'deleted-user',
-                "body": comment.body
-            }
-            for comment in post.comments[:10]
-        ]
+        for _ in range(5):  # Maximum of 5 attempts
+            try:
+                comments_data = [
+                    {
+                        "author": comment.author.name if comment.author else 'deleted-user',
+                        "body": comment.body
+                    }
+                    for comment in post.comments[:10]
+                ]
+                break
+            except prawcore.exceptions.TooManyRequests as e:
+                time.sleep(retry_delay)
+    
         post_to_json = {
             "subreddit": subreddit,
             "author": post.author.name if post.author else 'deleted-user',
@@ -56,7 +61,7 @@ for index, subreddit in enumerate(subreddits):
 
         json.dump(post_to_json, outputFile, indent=6)
 
-        if index < len(subreddits) - 1 or i < len(top) - 1:
+        if index < len(subreddits) - 1 or i < len(final) - 1:
             outputFile.write(',\n')
 
 outputFile.write("\n]")
