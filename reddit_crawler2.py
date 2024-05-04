@@ -18,7 +18,7 @@ outputFile = open("output.json", "w")
 
 outputFile.write("[\n")
 
-retry_delay = 60  # Initial delay is 5 seconds
+retry_delay = 60  # Initial delay is 60 seconds
 
 for index, subreddit in enumerate(subreddits):
     for _ in range(5):  # Maximum of 5 attempts
@@ -34,7 +34,6 @@ for index, subreddit in enumerate(subreddits):
     final = top + new + hot
     final = set(final)
     for i, post in enumerate(final):
-        post.comments.replace_more(limit=0)
         comments_data = [
             {
                 "author": comment.author.name if comment.author else 'deleted-user',
