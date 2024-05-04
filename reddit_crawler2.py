@@ -3,6 +3,7 @@ import json
 import config
 import prawcore
 import time
+from praw.models import MoreComments
 
 reddit = praw.Reddit(
     username=config.username,
@@ -12,11 +13,11 @@ reddit = praw.Reddit(
     user_agent="CS172 Project Phase One"
 )
 
-subreddits = ["Home", "AskReddit", "NoStupidQuestions", "facepalm", "interestingasfuck", "Damnthatsinteresting", "AmItheAsshole", "mildlyinfuriating", "Piracy", "AITAH", "gaming", "worldnews", "pcmasterrace", "Unexpected", "news", "politics", "wallstreetbets", "todayilearned", "nottheonion", "explainlikeimfive", "OutOfTheLoop", "buildapc", "Steam", "badroommates", "personalfinance", "antiwork", "anime", "manga", "DnD", "technology", "unpopularopinion", "youtube", "legaladvice", "sysadmin", "relationship_advice", "discordapp", "pcgaming", "Games", "ChatGPT", "2007scape", "PiratedGames", "techsupport", "shitposting", "theydidthemath","cyberpunkgame", "OldSchoolCool", "coolguides", "AskMen", "SteamDeck", "college", "rareinsults", "science", "relationship", "csMajors", "ProgrammerHumor", "cscareerquestions", "Python", "cpp", "learnprogramming","leetcode", "computerscience"]
+subreddits = ["worldnews", "pcmasterrace", "Unexpected", "news", "politics", "wallstreetbets", "todayilearned", "nottheonion", "explainlikeimfive", "OutOfTheLoop", "buildapc", "Steam", "badroommates", "personalfinance", "antiwork", "anime", "manga", "DnD", "technology", "unpopularopinion", "youtube", "legaladvice", "sysadmin", "relationship_advice", "discordapp", "pcgaming", "Games", "ChatGPT", "2007scape", "PiratedGames", "techsupport", "shitposting", "theydidthemath","cyberpunkgame", "OldSchoolCool", "coolguides", "AskMen", "SteamDeck", "college", "rareinsults", "science", "relationship", "csMajors", "ProgrammerHumor", "cscareerquestions", "Python", "cpp", "learnprogramming","leetcode", "computerscience", "funny", "AskReddit", "Music", "movies", "science", "memes", "Showerthoughts", "pics", "Jokes", "videos", "space", "askscience", "DIY", "books", "EarthPorn", "food", "mildlyinteresting", "LifeProTips", "IAmA", "Art", "gadgets", "GetMotivated", "gifs", "sports", "dataisbeautiful", "Documentaries", "Futurology", "UpliftingNews", "photoshopbattles", "tifu", "listentothis", "history", "nosleep", "WritingPrompts", "philosophy", "television", "InternetIsBeautiful", "wholesomememes", "creepy", "NatureIsFuckingLit"]
 
-outputFile = open("output.json", "w")
+outputFile = open("output.json", "a")
 
-outputFile.write("[\n")
+outputFile.write("\n")
 
 retry_delay = 90  
 
@@ -35,14 +36,19 @@ for index, subreddit in enumerate(subreddits):
     for i, post in enumerate(final):
         for _ in range(5):  # Maximum of 5 attempts
             try:
-                comments_data = [
-                    {
+                comments_data = []
+
+                for comment in post.comments[:10]:
+                    if isinstance(comment, MoreComments):
+                        continue
+
+                    comment_data = {
                         "author": comment.author.name if comment.author else 'deleted-user',
                         "body": comment.body
                     }
-                    for comment in post.comments[:10]
-                ]
-                break
+
+                    comments_data.append(comment_data)
+                break 
             except prawcore.exceptions.TooManyRequests as e:
                 time.sleep(retry_delay)
     
