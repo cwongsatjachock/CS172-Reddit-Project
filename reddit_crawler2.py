@@ -13,11 +13,11 @@ reddit = praw.Reddit(
     user_agent="CS172 Project Phase One"
 )
 
-subreddits = ["manga", "DnD", "technology", "unpopularopinion", "youtube", "legaladvice", "sysadmin", "relationship_advice", "discordapp", "pcgaming", "Games", "ChatGPT", "2007scape", "PiratedGames", "techsupport", "shitposting", "theydidthemath","cyberpunkgame", "OldSchoolCool", "coolguides", "AskMen", "SteamDeck", "college", "rareinsults", "science", "relationship", "csMajors", "ProgrammerHumor", "cscareerquestions", "Python", "cpp", "learnprogramming","leetcode", "computerscience", "funny", "AskReddit", "Music", "movies", "science", "memes", "Showerthoughts", "pics", "Jokes", "videos", "space", "askscience", "DIY", "books", "EarthPorn", "food", "mildlyinteresting", "LifeProTips", "IAmA", "Art", "gadgets", "GetMotivated", "gifs", "sports", "dataisbeautiful", "Documentaries", "Futurology", "UpliftingNews", "photoshopbattles", "tifu", "listentothis", "history", "nosleep", "WritingPrompts", "philosophy", "television", "InternetIsBeautiful", "wholesomememes", "creepy", "NatureIsFuckingLit"]
+subreddits = ["Home", "AskReddit", "NoStupidQuestions", "facepalm", "interestingasfuck", "Damnthatsinteresting", "AmItheAsshole", "mildlyinfuriating", "Piracy", "AITAH", "gaming", "worldnews", "pcmasterrace", "Unexpected", "news", "politics", "wallstreetbets", "todayilearned", "nottheonion", "explainlikeimfive", "OutOfTheLoop", "buildapc", "Steam", "badroommates", "personalfinance", "antiwork", "anime", "manga", "DnD", "technology", "unpopularopinion", "youtube", "legaladvice", "sysadmin", "relationship_advice", "discordapp", "pcgaming", "Games", "ChatGPT", "2007scape", "PiratedGames", "techsupport", "shitposting", "theydidthemath","cyberpunkgame", "OldSchoolCool", "coolguides", "AskMen", "SteamDeck", "college", "rareinsults", "science", "relationship", "csMajors", "ProgrammerHumor", "cscareerquestions", "Python", "cpp", "learnprogramming","leetcode", "computerscience", "funny", "AskReddit", "Music", "movies", "science", "memes", "Showerthoughts", "pics", "Jokes", "videos", "space", "askscience", "DIY", "books", "EarthPorn", "food", "mildlyinteresting", "LifeProTips", "IAmA", "Art", "gadgets", "GetMotivated", "gifs", "sports", "dataisbeautiful", "Documentaries", "Futurology", "UpliftingNews", "photoshopbattles", "tifu", "listentothis", "history", "nosleep", "WritingPrompts", "philosophy", "television", "InternetIsBeautiful", "wholesomememes", "creepy", "NatureIsFuckingLit"]
 
 outputFile = open("output.json", "a")
 
-outputFile.write("\n")
+outputFile.write("[\n")
 
 retry_delay = 90  
 
@@ -58,7 +58,6 @@ for index, subreddit in enumerate(subreddits):
             "subreddit": subreddit,
             "author": post.author.name if post.author else 'deleted-user',
             "title": post.title,
-            "url": post.url,
             "selftext": post.selftext,
             "post ID": post.id,
             "score": post.score,
