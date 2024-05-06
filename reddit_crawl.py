@@ -25,6 +25,7 @@ def retrieveData(postType):
 
         # Grabs comments and its data
         comments_data = []
+
         for comment in post.comments[:5]:
             # Ignore empty comments
             if not comment.body.strip():
