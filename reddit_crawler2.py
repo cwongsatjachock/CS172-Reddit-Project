@@ -5,6 +5,8 @@ import prawcore
 import time
 from praw.models import MoreComments
 
+print("Starting Reddit Crawler v2 - Authored by Project Group 13")
+
 reddit = praw.Reddit(
     username=config.username,
     password=config.password,
