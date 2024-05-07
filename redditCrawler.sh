@@ -1,3 +1,3 @@
 echo Reddit Crawler v2
-chmod +x reddit_crawler2.py
+chmod +x redditCrawler.sh
 python reddit_crawler2.py
