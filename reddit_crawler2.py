@@ -4,6 +4,8 @@ import config
 import prawcore
 import time
 from praw.models import MoreComments
+from bs4 import BeautifulSoup
+import requests
 
 reddit = praw.Reddit(
     username=config.username,
@@ -15,7 +17,7 @@ reddit = praw.Reddit(
 
 subreddits = ["Home", "AskReddit", "NoStupidQuestions", "facepalm", "interestingasfuck", "Damnthatsinteresting", "AmItheAsshole", "mildlyinfuriating", "Piracy", "AITAH", "gaming", "worldnews", "pcmasterrace", "Unexpected", "news", "politics", "wallstreetbets", "todayilearned", "nottheonion", "explainlikeimfive", "OutOfTheLoop", "buildapc", "Steam", "badroommates", "personalfinance", "antiwork", "anime", "manga", "DnD", "technology", "unpopularopinion", "youtube", "legaladvice", "sysadmin", "relationship_advice", "discordapp", "pcgaming", "Games", "ChatGPT", "2007scape", "PiratedGames", "techsupport", "shitposting", "theydidthemath","cyberpunkgame", "OldSchoolCool", "coolguides", "AskMen", "SteamDeck", "college", "rareinsults", "science", "relationship", "csMajors", "ProgrammerHumor", "cscareerquestions", "Python", "cpp", "learnprogramming","leetcode", "computerscience", "funny", "AskReddit", "Music", "movies", "science", "memes", "Showerthoughts", "pics", "Jokes", "videos", "space", "askscience", "DIY", "books", "EarthPorn", "food", "mildlyinteresting", "LifeProTips", "IAmA", "Art", "gadgets", "GetMotivated", "gifs", "sports", "dataisbeautiful", "Documentaries", "Futurology", "UpliftingNews", "photoshopbattles", "tifu", "listentothis", "history", "nosleep", "WritingPrompts", "philosophy", "television", "InternetIsBeautiful", "wholesomememes", "creepy", "NatureIsFuckingLit"]
 
-outputFile = open("output.json", "a")
+outputFile = open("output5mb.json", "a")
 
 outputFile.write("[\n")
 
@@ -38,6 +40,26 @@ for index, subreddit in enumerate(subreddits):
     for i, post in enumerate(final):
         for _ in range(5):  # Maximum of 5 attempts
             try:
+                urls_data = []
+
+                if (post.selftext_html != None):
+                    soup = BeautifulSoup(post.selftext_html, 'html.parser')
+                    for link in soup.find_all('a'):
+                        url = link.get('href')
+                        try:
+                            source_code = requests.get(url)
+                            soup2 = BeautifulSoup(source_code.content, 'html.parser')
+
+                            url_data = {
+                            "url": url,
+                            "title": soup2.title.string if soup2.title else "none"
+                            }
+                            urls_data.append(url_data)
+                        except requests.exceptions.ConnectionError as e:
+                            continue
+                        except requests.exceptions.MissingSchema as e:
+                            continue
+                
                 comments_data = []
 
                 for comment in post.comments[:10]:
@@ -53,7 +75,9 @@ for index, subreddit in enumerate(subreddits):
                 break 
             except prawcore.exceptions.TooManyRequests as e:
                 time.sleep(retry_delay)
-    
+            except prawcore.exceptions.Forbidden as e:
+                time.sleep(retry_delay)
+
         post_to_json = {
             "subreddit": subreddit,
             "author": post.author.name if post.author else 'deleted-user',
@@ -63,7 +87,8 @@ for index, subreddit in enumerate(subreddits):
             "score": post.score,
             "permalink": post.permalink,
             "image url": post.url,
-            "comments": comments_data
+            "comments": comments_data,
+            "urls": urls_data
         }
 
         json.dump(post_to_json, outputFile, indent=6)
