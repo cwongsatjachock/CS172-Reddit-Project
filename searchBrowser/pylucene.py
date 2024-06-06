@@ -113,17 +113,21 @@ def retrieve(storedir, query):
         logging.error("Error in retrieve: %s", e)
         raise
 
-@app.route("/")
+@app.route("/", methods=['POST', 'GET'])
 def home():
-    return 'Welcome to the Reddit Post Search Engine!'
-
-@app.route("/input", methods=['POST', 'GET'])
-def input():
     try:
         return render_template('input.html')
     except Exception as e:
         logging.error("Error in /input route: %s", e)
         return "Internal Server Error", 500
+
+#@app.route("/input", methods=['POST', 'GET'])
+#def input():
+#    try:
+#        return render_template('input.html')
+#    except Exception as e:
+#        logging.error("Error in /input route: %s", e)
+#        return "Internal Server Error", 500
 
 @app.route("/output", methods=['POST', 'GET'])
 def output():
