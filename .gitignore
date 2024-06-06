@@ -1,3 +1,5 @@
 config.py
 __pycache__
 output.json
+sample_lucene_index
+_pycache_

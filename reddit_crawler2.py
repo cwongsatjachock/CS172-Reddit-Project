@@ -15,7 +15,13 @@ reddit = praw.Reddit(
     user_agent="CS172 Project Phase One"
 )
 
-subreddits = ["Home", "AskReddit", "NoStupidQuestions", "facepalm", "interestingasfuck", "Damnthatsinteresting", "AmItheAsshole", "mildlyinfuriating", "Piracy", "AITAH", "gaming", "worldnews", "pcmasterrace", "Unexpected", "news", "politics", "wallstreetbets", "todayilearned", "nottheonion", "explainlikeimfive", "OutOfTheLoop", "buildapc", "Steam", "badroommates", "personalfinance", "antiwork", "anime", "manga", "DnD", "technology", "unpopularopinion", "youtube", "legaladvice", "sysadmin", "relationship_advice", "discordapp", "pcgaming", "Games", "ChatGPT", "2007scape", "PiratedGames", "techsupport", "shitposting", "theydidthemath","cyberpunkgame", "OldSchoolCool", "coolguides", "AskMen", "SteamDeck", "college", "rareinsults", "science", "relationship", "csMajors", "ProgrammerHumor", "cscareerquestions", "Python", "cpp", "learnprogramming","leetcode", "computerscience", "funny", "AskReddit", "Music", "movies", "science", "memes", "Showerthoughts", "pics", "Jokes", "videos", "space", "askscience", "DIY", "books", "EarthPorn", "food", "mildlyinteresting", "LifeProTips", "IAmA", "Art", "gadgets", "GetMotivated", "gifs", "sports", "dataisbeautiful", "Documentaries", "Futurology", "UpliftingNews", "photoshopbattles", "tifu", "listentothis", "history", "nosleep", "WritingPrompts", "philosophy", "television", "InternetIsBeautiful", "wholesomememes", "creepy", "NatureIsFuckingLit"]
+# subreddits = ["Home", "AskReddit", "NoStupidQuestions", "facepalm", "interestingasfuck", "Damnthatsinteresting", "AmItheAsshole", "mildlyinfuriating", "Piracy", "AITAH", "gaming", "worldnews", "pcmasterrace", "Unexpected", "news", "politics", "wallstreetbets", "todayilearned", "nottheonion", "explainlikeimfive", "OutOfTheLoop", "buildapc", "Steam", "badroommates", "personalfinance", "antiwork", "anime", "manga", "DnD", "technology", "unpopularopinion", "youtube", "legaladvice", "sysadmin", "relationship_advice", "discordapp", "pcgaming", "Games", "ChatGPT", "2007scape", "PiratedGames", "techsupport", "shitposting", "theydidthemath","cyberpunkgame", "OldSchoolCool", "coolguides", "AskMen", "SteamDeck", "college", "rareinsults", "science", "relationship", "csMajors", "ProgrammerHumor", "cscareerquestions", "Python", "cpp", "learnprogramming","leetcode", "computerscience", "funny", "AskReddit", "Music", "movies", "science", "memes", "Showerthoughts", "pics", "Jokes", "videos", "space", "askscience", "DIY", "books", "EarthPorn", "food", "mildlyinteresting", "LifeProTips", "IAmA", "Art", "gadgets", "GetMotivated", "gifs", "sports", "dataisbeautiful", "Documentaries", "Futurology", "UpliftingNews", "photoshopbattles", "tifu", "listentothis", "history", "nosleep", "WritingPrompts", "philosophy", "television", "InternetIsBeautiful", "wholesomememes", "creepy", "NatureIsFuckingLit"]
+subreddits = ["interestingasfuck", "facepalm"]
+
+# limits the amounts of posts/comments crawled. for testing purposes
+# For optimal amount of data, postLimit = 1000 and commentLimit = 10
+postLimit = 1
+commentLimit = 2
 
 outputFile = open("output.json", "a")
 
@@ -26,9 +32,9 @@ retry_delay = 90
 for index, subreddit in enumerate(subreddits):
     for _ in range(5):  # Maximum of 5 attempts
         try:
-            top = list(reddit.subreddit(subreddit).top(limit=1000))
-            new = list(reddit.subreddit(subreddit).new(limit=1000))
-            hot = list(reddit.subreddit(subreddit).hot(limit=1000))
+            top = list(reddit.subreddit(subreddit).top(limit=postLimit))
+            new = list(reddit.subreddit(subreddit).new(limit=postLimit))
+            hot = list(reddit.subreddit(subreddit).hot(limit=postLimit))
             break  
         except prawcore.exceptions.TooManyRequests as e:
             time.sleep(retry_delay)
@@ -42,7 +48,7 @@ for index, subreddit in enumerate(subreddits):
             try:
                 comments_data = []
 
-                for comment in post.comments[:10]:
+                for comment in post.comments[:commentLimit]:
                     if isinstance(comment, MoreComments):
                         continue
 
