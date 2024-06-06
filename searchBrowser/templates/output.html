@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    {% for item in lucene_output %}
+        <h2>Score: {{ item['score'] }}</h2>
+        <h2>Subreddit: {{ item['subreddit'] }}</h2>
+        <h2>Author: {{ item['author'] }}</h2>
+        <h2>Title: {{ item['title'] }}</h2>
+        <h2>Selftext: {{ item['selftext'] }}</h2>
+        <h2>Post ID: {{ item['post_id'] }}</h2>
+        <h2>Score Value: {{ item['score_val'] }}</h2>
+        <h2>Permalink: <a href="{{ item['permalink'] }}" target="_blank">{{ item['permalink'] }}</a></h2>
+        <h2>Image URL: <a href="{{ item['image_url'] }}" target="_blank">{{ item['image_url'] }}</a></h2>
+        <h2>Comment: {{ item['body'] }}</h2>
+        <hr>
+    {% endfor %}
+
+    <form action="/input" method="POST">
+        <p><input type="submit" value="Search Again" /></p>
+    </form>
+</body>
+</html>
