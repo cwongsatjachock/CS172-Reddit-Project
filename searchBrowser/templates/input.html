@@ -14,6 +14,7 @@
             align-items: center;
             flex-direction: column;
             height: 100vh;
+            padding-top: 50px; /* Adjusted for fixed nav bar height */
         }
 
         /* Styling for the header */
@@ -69,10 +70,14 @@
             width: 100%;
             background-color: #333;
             overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center; /* Center the items horizontally */
         }
 
         nav a {
-            float: left;
             display: block;
             color: white;
             text-align: center;
@@ -89,7 +94,6 @@
 <body>
     <nav>
         <a href="/">Home</a>
-        <a href="/output">Search Results</a>
     </nav>
     <h1>Search Reddit Posts</h1>
     <form action="/output" method="POST">

@@ -113,7 +113,7 @@ def retrieve(storedir, query):
         logging.error("Error in retrieve: %s", e)
         raise
 
-@app.route("/")
+@app.route("/", methods=['POST', 'GET'])
 def home():
     try:
         return render_template('input.html')
