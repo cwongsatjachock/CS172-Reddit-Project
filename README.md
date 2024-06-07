@@ -30,8 +30,8 @@ This project demonstrates the creation of a search interface for Reddit data usi
 ## Clone the Repository:
 
 ```bash
-git clone https://github.com/your-repo/pylucene-reddit-search.git
-cd pylucene-reddit-search
+git clone https://github.com/cwongsatjachock/CS172-Reddit-Project.git
+cd searchBrowser
 ```
 
 ## Prepare the Data:
