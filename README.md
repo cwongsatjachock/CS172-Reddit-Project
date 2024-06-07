@@ -21,6 +21,10 @@ This project demonstrates the creation of a search interface for Reddit data usi
    ```bash
    pip install flask
    ```
+   or
+   ```bash
+   pip3 install flask
+   ```
   
 # Installation
 ## Clone the Repository:
