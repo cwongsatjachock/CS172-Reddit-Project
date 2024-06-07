@@ -49,6 +49,13 @@ export FLASK_APP=pylucene.py
 flask run -h 0.0.0.0 -p 8888
 ```
 
+## Or utilizing the shell executable:
+Navigate to the CS172-Reddit-Project directory and run the following commands:
+```bash
+chmod +x searchBrowser.sh
+./searchBrowser.sh
+```
+
 ## Access the Interface:
 Open your web browser and go to http://127.0.0.1:8888.
 
