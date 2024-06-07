@@ -31,7 +31,7 @@ This project demonstrates the creation of a search interface for Reddit data usi
 
 ```bash
 git clone https://github.com/cwongsatjachock/CS172-Reddit-Project.git
-cd searchBrowser
+cd CS172-Reddit-Project/searchBrowser
 ```
 
 ## Prepare the Data:
