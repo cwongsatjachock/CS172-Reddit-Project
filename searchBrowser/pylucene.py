@@ -2,6 +2,7 @@ import json
 import lucene
 import os
 import logging
+import time
 from org.apache.lucene.store import NIOFSDirectory
 from java.nio.file import Paths
 from org.apache.lucene.analysis.standard import StandardAnalyzer
@@ -150,7 +151,9 @@ def output():
 lucene.initVM(vmargs=['-Djava.awt.headless=true'])
 
 if not os.path.exists(index_dir_path) or not os.listdir(index_dir_path):
+    start_time = time.time()
     os.makedirs(index_dir_path, exist_ok=True)
     logging.info("Creating index as it doesn't exist or is empty")
     create_index(index_dir_path)
+    print("--- %s seconds ---" % (time.time() - start_time))
 
