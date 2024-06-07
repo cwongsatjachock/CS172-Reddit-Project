@@ -54,15 +54,6 @@ The web interface contains a search textbox and a search button. When a search q
 # Ranking Function
 The ranking function orders the posts based on a combination of relevance and timestamp. Relevance is determined by PyLucene's scoring mechanism, and the timestamp ensures that more recent posts are given higher priority.
 
-# Extra Credit
-The application allows ordering posts by:
-
-- Votes
-- Time
-- Relevance
-- A combination of the above factors
-- Users can adjust the weights for each factor to customize the search results.
-
 # Contributors
 - Lester Lien
 - Chaiwat Wongsatjachock
